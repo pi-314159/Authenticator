@@ -8,7 +8,7 @@
 #include <totp.h>
 
 namespace ACTIONS {
-	std::string GenerateTOTP(tOTP_object& tOTP);
+    std::string GenerateTOTP(tOTP_object& tOTP);
 }
 
 #endif

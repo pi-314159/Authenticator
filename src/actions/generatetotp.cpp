@@ -11,7 +11,7 @@
 #include <cmath>
 
 namespace ACTIONS {
-	std::string GenerateTOTP(tOTP_object& tOTP) {
+    std::string GenerateTOTP(tOTP_object& tOTP) {
         auto secretSize = static_cast<int>(floor(tOTP.secret.size() / 1.6));
         unsigned char* decodedSecret = new unsigned char[secretSize];
         TOOLS::Base32Decode(tOTP.secret, decodedSecret);
@@ -25,5 +25,5 @@ namespace ACTIONS {
         delete[] HMACDigest; delete HMACDigestSize;
         std::string paddedResult = "0000000000" + std::to_string(result);
         return paddedResult.substr(paddedResult.length() - tOTP.digits);
-	}
+    }
 }

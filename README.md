@@ -2,25 +2,25 @@ This is a TOTP (Time-Based One-Time Password) authenticator that adheres to [RFC
 
 ## Build
 
-Before building, ensure that you have OpenSSL library 3.0 or higher installed and that your compiler supports C++20 standards. By default, the executable is located in the `build` folder.
+Before building, ensure that you have OpenSSL library 3.0 or higher installed and that your compiler supports C++20. By default, the executable is located in the `build` folder.
 
 ### Windows
 
 If you're on Windows, you can install OpenSSL using vcpkg. Follow these steps:
 
 1. Install OpenSSL using vcpkg:
-   ```bat
-   vcpkg.exe install openssl:x64-windows
-   ```
-   or
-   ```bat
-   vcpkg.exe install openssl
-   ```
+    ```bat
+    vcpkg.exe install openssl:x64-windows
+    ```
+    or
+    ```bat
+    vcpkg.exe install openssl
+    ```
 
 2. Integrate vcpkg with Visual Studio:
-   ```bat
-   vcpkg integrate install
-   ```
+    ```bat
+    vcpkg.exe integrate install
+    ```
 
 3. Build the Visual Studio solution located in the `VisualStudio` folder.
 

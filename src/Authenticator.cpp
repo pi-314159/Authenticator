@@ -18,11 +18,10 @@
 
 int main(int argc, char* argv[]) {
     std::cout << "=========================== PI Authenticator ===========================\n"
-        "= Last Updated:      2024-06-05                                        =\n"
+        "= Last Updated:      2024-06-10                                        =\n"
         "= License:           MIT                                               =\n"
         "= GitHub Repository: github.com/pi-314159/Authenticator                =\n"
-        "========================================================================\n\n"
-        "Note: Sometimes you may need to hit Enter TWICE after input to continue.\n"<< std::endl;
+        "========================================================================\n\n" << std::endl;
 
     std::string action = "l";
     std::vector<tOTP_object> tOTPObjects;

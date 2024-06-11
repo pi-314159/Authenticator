@@ -8,7 +8,7 @@
 #include <totp.h>
 
 namespace ACTIONS {
-	void Add(std::vector<tOTP_object>& tOTPObjects);
+    void Add(std::vector<tOTP_object>& tOTPObjects);
 }
 
 #endif
