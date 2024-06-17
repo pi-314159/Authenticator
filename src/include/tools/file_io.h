@@ -1,6 +1,5 @@
 // Author:       pi-314159@GitHub
 // License:      MIT
-// Last updated: 2024-06-10
 
 #ifndef TOOLS__FILE_IO_H_
 #define TOOLS__FILE_IO_H_
@@ -15,7 +14,7 @@ namespace TOOLS {
     public:
         File_Io(std::unique_ptr<std::string>& s);
         bool ReadBinary(std::string& binaryFileContent);
-        bool WriteBinary(std::string& binaryFileContent, unsigned char* iV, unsigned int iVSize = 16);
+        bool WriteBinary(std::string& binaryFileContent, unsigned char key[], unsigned int iVSize = 16);
         bool DeleteFile();
     };
 }

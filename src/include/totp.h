@@ -1,6 +1,5 @@
 // Author:       pi-314159@GitHub
 // License:      MIT
-// Last updated: 2024-06-10
 
 #ifndef TOTP_H_
 #define TOTP_H_
@@ -12,7 +11,7 @@ struct tOTP_object {
     std::string tag;
     std::string secret;
     unsigned int period;
-    char alg;
+    std::string alg;
     unsigned short digits;
 };
 

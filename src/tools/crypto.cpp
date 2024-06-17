@@ -1,6 +1,5 @@
 // Author:       pi-314159@GitHub
 // License:      MIT
-// Last updated: 2024-06-10
 
 #include <tools/crypto.h>
 
@@ -10,18 +9,15 @@
 #include <ranges>
 
 namespace TOOLS {
-    void Crypto::CalculateHmac(char hashAlg, unsigned char* key, int& keySize, unsigned long long int msg, unsigned char* result, unsigned int* resultSize) {
+    void Crypto::CalculateHmac(std::string hashAlg, unsigned char* key, int& keySize, unsigned long long int msg, unsigned char* result, unsigned int* resultSize) {
         auto hashAlgorithm = EVP_sha1();
-        switch (hashAlg) {
-        case '2':
+        if (hashAlg == "sha256") {
             hashAlgorithm = EVP_sha256();
-            break;
-        case '3':
+        } else if (hashAlg == "sha384") {
             hashAlgorithm = EVP_sha384();
-            break;
-        case '5':
+        }
+        else if (hashAlg == "sha512") {
             hashAlgorithm = EVP_sha512();
-            break;
         }
 
         unsigned char message[8] = {'0'};

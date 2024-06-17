@@ -1,9 +1,7 @@
 // Author:       pi-314159@GitHub
 // License:      MIT
-// Last updated: 2024-06-10
 
 #include <actions/generatetotp.h>
-
 #include <tools/base32decode.h>
 #include <tools/crypto.h>
 
@@ -11,7 +9,7 @@
 #include <cmath>
 
 namespace ACTIONS {
-    std::string GenerateTOTP(tOTP_object& tOTP) {
+    std::string GenerateTotp(tOTP_object& tOTP) {
         auto secretSize = static_cast<int>(floor(tOTP.secret.size() / 1.6));
         unsigned char* decodedSecret = new unsigned char[secretSize];
         TOOLS::Base32Decode(tOTP.secret, decodedSecret);

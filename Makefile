@@ -1,6 +1,5 @@
 # Author:       pi-314159@GitHub
 # License:      MIT
-# Last Updated: 2024-06-10
 
 CXX ?= g++
 DEFAULT_FLAGS := -std=c++20 -O3 -Wall

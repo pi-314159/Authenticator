@@ -1,12 +1,10 @@
 // Author:       pi-314159@GitHub
 // License:      MIT
-// Last updated: 2024-06-10
 
 #include <actions/add.h>
 #include <actions/generatetotp.h>
 #include <tools/crypto.h>
 #include <tools/file_io.h>
-#include <tools/generateiv.h>
 #include <tools/vectortostring.h>
 #include <tools/string.h>
 
@@ -18,7 +16,7 @@
 
 int main(int argc, char* argv[]) {
     std::cout << "=========================== PI Authenticator ===========================\n"
-        "= Last Updated:      2024-06-10                                        =\n"
+        "= Last Updated:      2024-06-17                                        =\n"
         "= License:           MIT                                               =\n"
         "= GitHub Repository: github.com/pi-314159/Authenticator                =\n"
         "========================================================================\n\n" << std::endl;
@@ -106,7 +104,7 @@ int main(int argc, char* argv[]) {
                                 tOTPInstance.period = std::stoul(lineElement);
                                 break;
                             case 3:
-                                tOTPInstance.alg = lineElement[0];
+                                tOTPInstance.alg = lineElement;
                                 break;
                             case 4:
                                 tOTPInstance.digits = std::stoi(lineElement);
@@ -140,7 +138,7 @@ int main(int argc, char* argv[]) {
     while (action[0] != 'q') {
         STARTLOOP:
         if (action[0] == 'g') {
-            std::cout << "OTP: " << ACTIONS::GenerateTOTP(tOTPObjects[selectedOTPIndex]) << "\n" << std::endl;
+            std::cout << "OTP: " << ACTIONS::GenerateTotp(tOTPObjects[selectedOTPIndex]) << "\n" << std::endl;
         }
         else if (action[0] == 'l') {
             if (tOTPObjectsSize > 0) {
@@ -159,15 +157,9 @@ int main(int argc, char* argv[]) {
             if (tOTPObjectsSize > 1) {
                 tOTPObjects.erase(tOTPObjects.begin() + selectedOTPIndex);
                 action[0] = 'l';
-                unsigned char* iV = new unsigned char[16];
-                TOOLS::GenerateIV(iV);
                 auto toWrite = std::make_unique<std::string>("OK" + TOOLS::VectorToString(tOTPObjects));
-                auto encryptedContents = std::make_unique_for_overwrite<std::string>();
-                unsigned long long int encryptedContentsSize = 0;
-                crypto->Aes(key, iV, *toWrite, *encryptedContents, encryptedContentsSize);
-                fileIo->WriteBinary(*encryptedContents, iV);
-                encryptedContents.reset(); toWrite.reset();
-                delete[] iV;
+                fileIo->WriteBinary(*toWrite, key);
+                toWrite.reset();
             }
             else {
                 tOTPObjects.clear();
@@ -181,15 +173,9 @@ int main(int argc, char* argv[]) {
             ACTIONS::Add(tOTPObjects);
             action[0] = 'l';
             ++tOTPObjectsSize;
-            unsigned char* iV = new unsigned char[16];
-            TOOLS::GenerateIV(iV);
             auto toWrite = std::make_unique<std::string>("OK" + TOOLS::VectorToString(tOTPObjects));
-            auto encryptedContents = std::make_unique_for_overwrite<std::string>();
-            unsigned long long int encryptedContentsSize = 0;
-            crypto->Aes(key, iV, *toWrite, *encryptedContents, encryptedContentsSize);
-            fileIo->WriteBinary(*encryptedContents, iV);
-            encryptedContents.reset(); toWrite.reset();
-            delete[] iV;
+            fileIo->WriteBinary(*toWrite, key);
+            toWrite.reset();
             std::cout << "Added.\n" << std::endl;
             goto STARTLOOP;
         }

@@ -1,6 +1,5 @@
 // Author:       pi-314159@GitHub
 // License:      MIT
-// Last updated: 2024-06-10
 
 #ifndef TOOLS__VECTORTOSTRING_H_
 #define TOOLS__VECTORTOSTRING_H_

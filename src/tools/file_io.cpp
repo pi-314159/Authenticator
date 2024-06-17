@@ -1,8 +1,9 @@
 // Author:       pi-314159@GitHub
 // License:      MIT
-// Last updated: 2024-06-10
 
+#include <tools/crypto.h>
 #include <tools/file_io.h>
+#include <tools/generateiv.h>
 
 #include <filesystem>
 #include <fstream>
@@ -19,22 +20,23 @@ namespace TOOLS {
         return true;
     }
 
-    bool File_Io::WriteBinary(std::string& binaryFileContent, unsigned char* iV, unsigned int iVSize) {
+    bool File_Io::WriteBinary(std::string& binaryFileContent, unsigned char key[], unsigned int iVSize) {
+        unsigned char* iV = new unsigned char[16];
+        GenerateIv(iV);
+        std::string encryptedContents;
+        unsigned long long int encryptedContentsSize = 0;
+        auto crypto = std::make_unique_for_overwrite<TOOLS::Crypto>();
+        crypto->Aes(key, iV, binaryFileContent, encryptedContents, encryptedContentsSize);
+        crypto.reset();
         std::ofstream writeBinaryFileHandle(filePath, std::ios::binary);
         writeBinaryFileHandle.write((char*)iV, iVSize);
-        writeBinaryFileHandle.write(binaryFileContent.c_str(), binaryFileContent.size());
+        writeBinaryFileHandle.write(encryptedContents.c_str(), encryptedContentsSize);
         writeBinaryFileHandle.close();
+        delete[] iV;
         return true;
     }
 
     bool File_Io::DeleteFile() {
-        bool ret = true;
-        try {
-            std::filesystem::remove(filePath);
-        }
-        catch (...) {
-            ret = false;
-        }
-        return ret;
+        return std::filesystem::remove(filePath);
     }
 }

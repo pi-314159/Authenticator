@@ -1,6 +1,5 @@
 // Author:       pi-314159@GitHub
 // License:      MIT
-// Last updated: 2024-06-10
 
 #ifndef TOOLS__STRING_H_
 #define TOOLS__STRING_H_

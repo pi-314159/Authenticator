@@ -1,6 +1,5 @@
 // Author:       pi-314159@GitHub
 // License:      MIT
-// Last updated: 2024-06-10
 
 #include <actions/add.h>
 #include <tools/string.h>
@@ -12,14 +11,14 @@ namespace ACTIONS {
     void Add(std::vector<tOTP_object>& tOTPObjects) {
         auto str = std::make_unique_for_overwrite<TOOLS::String>();
         std::string inputBuffer, tag, secret;
-        char alg = '1';
+        std::string alg = "sha1";
         unsigned int period;
         unsigned short digits;
         while (inputBuffer.empty()) {
             str->Input(inputBuffer, "Please enter the issuer (e.g., GitHub), then hit Enter TWICE to proceed:", true);
             str->FormatInput(inputBuffer, inputBuffer);
         }
-        tag = inputBuffer + "::";
+        tag = inputBuffer + ":";
         inputBuffer = "";
         while (inputBuffer.empty()) {
             str->Input(inputBuffer, "Please enter the account (e.g., user@example.com), \nthen hit Enter TWICE to proceed:", true);
@@ -44,11 +43,11 @@ namespace ACTIONS {
         }
         str->Input(inputBuffer, "Please select the hash algorithm:\n[1] SHA-1\n[2] SHA-256\n[3] SHA-384\n[5] SHA-512\nEnter your choice (default 1):");
         if (inputBuffer == "2") {
-            alg = '2';
+            alg = "sha256";
         } else if (inputBuffer == "3") {
-            alg = '3';
+            alg = "sha384";
         } else if (inputBuffer == "5") {
-            alg = '5';
+            alg = "sha512";
         }
         str->Input(inputBuffer, "Please enter the digits (between 6 - 10, default 6):");
         if (str->FormatInput(inputBuffer, digits, '2')) {
