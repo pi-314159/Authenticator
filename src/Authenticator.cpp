@@ -16,7 +16,7 @@
 
 int main(int argc, char* argv[]) {
     std::cout << "=========================== PI Authenticator ===========================\n"
-        "= Last Updated:      2024-06-17                                        =\n"
+        "= Last Updated:      2024-06-18                                        =\n"
         "= License:           MIT                                               =\n"
         "= GitHub Repository: github.com/pi-314159/Authenticator                =\n"
         "========================================================================\n\n" << std::endl;
@@ -133,12 +133,38 @@ int main(int argc, char* argv[]) {
     std::cout << '\n' << std::endl;
 
     unsigned long long int selectedOTPIndex = 0;
-    std::string optionsAvailable = "alq";
+    std::string optionsAvailable = "aclq";
     // action: [a] add; [d] delete; [l] list; [q] quit; [g] generate an OTP; [i] go to ASK_INPUT
     while (action[0] != 'q') {
         STARTLOOP:
         if (action[0] == 'g') {
             std::cout << "OTP: " << ACTIONS::GenerateTotp(tOTPObjects[selectedOTPIndex]) << "\n" << std::endl;
+            std::this_thread::sleep_for(std::chrono::seconds(2));
+        }
+        else if (action[0] == 'c') {
+            auto accountsFilePassword = std::make_unique_for_overwrite<std::string>();
+            str->Input(*accountsFilePassword, "Please enter a new password between 6 and 20 characters:");
+            while ((accountsFilePassword->length() < 6) || (accountsFilePassword->length() > 20)) {
+                str->Input(*accountsFilePassword, "Password does NOT meet the requirement! Please enter a new password:");
+            }
+            std::string tmpPassword;
+            str->Input(tmpPassword, "Please re-type your password:");
+            if (tmpPassword == *accountsFilePassword) {
+                for (short int i = 12; i < 32; ++i) {
+                    key[i] = tmpPassword[i % tmpPassword.length()];
+                }
+                accountsFilePassword.reset();
+                auto toWrite = std::make_unique<std::string>("OK" + TOOLS::VectorToString(tOTPObjects));
+                fileIo->WriteBinary(*toWrite, key);
+                toWrite.reset();
+                std::cout << "Changed.\n" << std::endl;
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+            }
+            else {
+                std::cout << "Passwords do NOT match. ";
+                accountsFilePassword.reset();
+                goto STARTLOOP;
+            }
         }
         else if (action[0] == 'l') {
             if (tOTPObjectsSize > 0) {
@@ -152,6 +178,7 @@ int main(int argc, char* argv[]) {
             else {
                 std::cout << "Empty list.\n" << std::endl;
             }
+            std::this_thread::sleep_for(std::chrono::seconds(1));
         }
         else if (action[0] == 'd') {
             if (tOTPObjectsSize > 1) {
@@ -168,6 +195,7 @@ int main(int argc, char* argv[]) {
             }
             --tOTPObjectsSize;
             std::cout << "Deleted.\n" << std::endl;
+            std::this_thread::sleep_for(std::chrono::seconds(1));
             goto STARTLOOP;
         } else if (action[0] == 'a') {
             ACTIONS::Add(tOTPObjects);
@@ -177,10 +205,11 @@ int main(int argc, char* argv[]) {
             fileIo->WriteBinary(*toWrite, key);
             toWrite.reset();
             std::cout << "Added.\n" << std::endl;
+            std::this_thread::sleep_for(std::chrono::seconds(1));
             goto STARTLOOP;
         }
         
-        str->Input(action, "Select from the following options:\nGenerate an OTP    [number]\nAdd                [a]\nDelete             [d[number]]\nList               [l]\nQuit               [q]:\nEnter your choice:");
+        str->Input(action, "Select from the following options:\nGenerate an OTP    [number]\nAdd                [a]\nDelete             [d[number]]\nList               [l]\nChange password    [c]\nQuit               [q]:\nEnter your choice:");
         if ((action[0] == 'd') || (action[0] == 'D')) {
             action.erase(0, 1);
             action = ' ' + action;

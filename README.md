@@ -46,7 +46,8 @@ After starting the program, you can use the following commands:
 2. `[number]`: Generate a new OTP for the specified account number.
 3. `a`: Add a new account. Please decode the QR code by yourself as you'll be prompted to enter the account details.
 4. `d[number]`: Delete an existing account by its account number.
-5. `q`: Quit the program.
+5. `c`: Change the password of the encrypted file.
+6. `q`: Quit the program.
 
 ### Example Usage
 
