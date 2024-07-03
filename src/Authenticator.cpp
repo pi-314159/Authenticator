@@ -16,7 +16,7 @@
 
 int main(int argc, char* argv[]) {
     std::cout << "=========================== PI Authenticator ===========================\n"
-        "= Last Updated:      2024-06-18                                        =\n"
+        "= Last Updated:      2024-07-03                                        =\n"
         "= License:           MIT                                               =\n"
         "= GitHub Repository: github.com/pi-314159/Authenticator                =\n"
         "========================================================================\n\n" << std::endl;
@@ -138,7 +138,7 @@ int main(int argc, char* argv[]) {
     while (action[0] != 'q') {
         STARTLOOP:
         if (action[0] == 'g') {
-            std::cout << "OTP: " << ACTIONS::GenerateTotp(tOTPObjects[selectedOTPIndex]) << "\n" << std::endl;
+            std::cout << "OTP: " << ACTIONS::GenerateTotp(tOTPObjects[selectedOTPIndex]) << '\n' << std::endl;
             std::this_thread::sleep_for(std::chrono::seconds(2));
         }
         else if (action[0] == 'c') {

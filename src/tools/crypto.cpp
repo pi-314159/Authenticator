@@ -13,7 +13,8 @@ namespace TOOLS {
         auto hashAlgorithm = EVP_sha1();
         if (hashAlg == "sha256") {
             hashAlgorithm = EVP_sha256();
-        } else if (hashAlg == "sha384") {
+        }
+        else if (hashAlg == "sha384") {
             hashAlgorithm = EVP_sha384();
         }
         else if (hashAlg == "sha512") {
@@ -34,6 +35,7 @@ namespace TOOLS {
         EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
         EVP_CipherInit_ex(ctx, EVP_aes_256_ctr(), NULL, key, iV, encrypt);
         unsigned char* inputBuffer = new unsigned char[bufferSize];
+        // `+16` to accommodate other modes such as CBC, although we are not using them here.
         unsigned char* outputBuffer = new unsigned char[bufferSize + 16];
         int outputBufferSize;
         unsigned long long int inputSize = input.length();
