@@ -1,4 +1,4 @@
-This is a TOTP (Time-Based One-Time Password) authenticator that adheres to [RFC 6238](https://datatracker.ietf.org/doc/html/rfc6238 "RFC 6238"). It utilizes the OpenSSL library for cryptographic operations. Secrets are securely stored in a file, encrypted using AES-256. The encrypted file can be transferred to different machines for usage.
+This is a TOTP (Time-Based One-Time Password) authenticator that adheres to [RFC 6238](https://datatracker.ietf.org/doc/html/rfc6238 "TOTP: Time-Based One-Time Password Algorithm"). It utilizes the OpenSSL library for cryptographic operations. Secrets are securely stored in a file, encrypted using AES-256. The encrypted file can be transferred to different machines for usage.
 
 ## Build
 
@@ -44,33 +44,22 @@ After starting the program, you can use the following commands:
 
 1. `l`: List all accounts. Each account is numbered.
 2. `[number]`: Generate a new OTP for the specified account number.
-3. `a`: Add a new account. Please decode the QR code by yourself as you'll be prompted to enter the account details.
+3. `a`: Add a new account. Use a QR code scanner (e.g., [Barcodes Decoder](https://tool.vas.live-on.net/HTML/Barcodes_Decoder.html "Barcodes Decoder")) to decode the QR code, then enter the account details as prompted.
 4. `d[number]`: Delete an existing account by its account number.
 5. `c`: Change the password of the encrypted file.
 6. `q`: Quit the program.
 
 ### Example Usage
 
-To generate a new OTP for the third account, use:
-```
-3
-```
+To generate a new OTP for the third account, enter `3`.
 
-To add a new account, use:
-```
-a
-```
+To add a new account, enter `a`.
 
-Follow the prompts to enter the account details.
-
-To delete the second account, use:
-```
-d2
-```
+To delete the second account, enter `d2`.
 
 ## Contributions
 
-Contributions to this project are welcome! If you find any bugs or have suggestions for improvements, please open an [issue](https://github.com/pi-314159/Authenticator/issues "issue") or submit a [pull request](https://github.com/pi-314159/Authenticator/pulls "pull request").
+Contributions to this project are welcome! If you find any bugs or have suggestions for improvements, please open an [issue](https://github.com/pi-314159/Authenticator/issues "issues") or submit a [pull request](https://github.com/pi-314159/Authenticator/pulls "pull requests").
 
 ## License
 
