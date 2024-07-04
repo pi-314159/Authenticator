@@ -3,7 +3,6 @@
 
 #include <actions/add.h>
 #include <actions/generatetotp.h>
-#include <tools/crypto.h>
 #include <tools/file_io.h>
 #include <tools/vectortostring.h>
 #include <tools/string.h>
@@ -25,11 +24,11 @@ int main(int argc, char* argv[]) {
     std::vector<tOTP_object> tOTPObjects;
     unsigned char key[32] = {'P', 'I', '-', '3', '1', '4', '1', '5', '9', '@', 'G', 'H'};
     std::string* accountsFilePassword = new std::string();
+    TOOLS::Crypto crypto;
 
     auto accountsFilePath = std::make_unique<std::string>((argc > 1) ? argv[1] : "Accounts");
     auto fileIo = std::make_unique<TOOLS::File_Io>(accountsFilePath);
     auto str = std::make_unique_for_overwrite<TOOLS::String>();
-    auto crypto = std::make_unique_for_overwrite<TOOLS::Crypto>();
 
     if (std::filesystem::exists(*accountsFilePath) && std::filesystem::file_size(*accountsFilePath) != 0) {
         *accountsFilePath = "TPlease enter your password:";
@@ -79,7 +78,7 @@ int main(int argc, char* argv[]) {
                 iV[i] = (*encryptedFileContents)[i];
             }
             (*encryptedFileContents).erase(0, 16);
-            crypto->Aes(key, iV, *encryptedFileContents, fileContents, fileContentsSize, false);
+            crypto.Aes(key, iV, *encryptedFileContents, fileContents, fileContentsSize, false);
             encryptedFileContents.reset();
             delete[] iV;
             if ((fileContents[0] == 'O') && (fileContents[1] == 'K')) {
@@ -134,11 +133,11 @@ int main(int argc, char* argv[]) {
 
     unsigned long long int selectedOTPIndex = 0;
     std::string optionsAvailable = "aclq";
-    // action: [a] add; [d] delete; [l] list; [q] quit; [g] generate an OTP; [i] go to ASK_INPUT
+    // action: [a] add; [d] delete; [l] list; [q] quit; [g] generate an OTP; [c] change password
     while (action[0] != 'q') {
         STARTLOOP:
         if (action[0] == 'g') {
-            std::cout << "OTP: " << ACTIONS::GenerateTotp(tOTPObjects[selectedOTPIndex]) << '\n' << std::endl;
+            std::cout << "OTP: " << ACTIONS::GenerateTotp(tOTPObjects[selectedOTPIndex], crypto) << '\n' << std::endl;
             std::this_thread::sleep_for(std::chrono::seconds(2));
         }
         else if (action[0] == 'c') {
@@ -155,7 +154,7 @@ int main(int argc, char* argv[]) {
                 }
                 accountsFilePassword.reset();
                 auto toWrite = std::make_unique<std::string>("OK" + TOOLS::VectorToString(tOTPObjects));
-                fileIo->WriteBinary(*toWrite, key);
+                fileIo->WriteBinary(*toWrite, crypto, key);
                 toWrite.reset();
                 std::cout << "Changed.\n" << std::endl;
                 std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -185,7 +184,7 @@ int main(int argc, char* argv[]) {
                 tOTPObjects.erase(tOTPObjects.begin() + selectedOTPIndex);
                 action[0] = 'l';
                 auto toWrite = std::make_unique<std::string>("OK" + TOOLS::VectorToString(tOTPObjects));
-                fileIo->WriteBinary(*toWrite, key);
+                fileIo->WriteBinary(*toWrite, crypto, key);
                 toWrite.reset();
             }
             else {
@@ -202,7 +201,7 @@ int main(int argc, char* argv[]) {
             action[0] = 'l';
             ++tOTPObjectsSize;
             auto toWrite = std::make_unique<std::string>("OK" + TOOLS::VectorToString(tOTPObjects));
-            fileIo->WriteBinary(*toWrite, key);
+            fileIo->WriteBinary(*toWrite, crypto, key);
             toWrite.reset();
             std::cout << "Added.\n" << std::endl;
             std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -239,6 +238,6 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    crypto.reset(); fileIo.reset(); str.reset();
+    fileIo.reset(); str.reset();
     return 0;
 }

@@ -5,9 +5,10 @@
 #define ACTIONS__GENERATETOTP_H_
 
 #include <totp.h>
+#include <tools/crypto.h>
 
 namespace ACTIONS {
-    std::string GenerateTotp(tOTP_object& tOTP);
+    std::string GenerateTotp(tOTP_object& tOTP, TOOLS::Crypto& crypto);
 }
 
 #endif

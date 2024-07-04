@@ -1,7 +1,6 @@
 // Author:       pi-314159@GitHub
 // License:      MIT
 
-#include <tools/crypto.h>
 #include <tools/file_io.h>
 #include <tools/generateiv.h>
 
@@ -20,14 +19,12 @@ namespace TOOLS {
         return true;
     }
 
-    bool File_Io::WriteBinary(std::string& binaryFileContent, unsigned char key[], unsigned int iVSize) {
+    bool File_Io::WriteBinary(std::string& binaryFileContent, TOOLS::Crypto& crypto, unsigned char key[], unsigned int iVSize) {
         unsigned char* iV = new unsigned char[16];
         GenerateIv(iV);
         std::string encryptedContents;
         unsigned long long int encryptedContentsSize = 0;
-        auto crypto = std::make_unique_for_overwrite<TOOLS::Crypto>();
-        crypto->Aes(key, iV, binaryFileContent, encryptedContents, encryptedContentsSize);
-        crypto.reset();
+        crypto.Aes(key, iV, binaryFileContent, encryptedContents, encryptedContentsSize);
         std::ofstream writeBinaryFileHandle(filePath, std::ios::binary);
         writeBinaryFileHandle.write((char*)iV, iVSize);
         writeBinaryFileHandle.write(encryptedContents.c_str(), encryptedContentsSize);
