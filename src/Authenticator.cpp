@@ -15,7 +15,7 @@
 
 int main(int argc, char* argv[]) {
     std::cout << "=========================== PI Authenticator ===========================\n"
-        "= Last Updated:      2024-07-03                                        =\n"
+        "= Last Updated:      2024-07-08                                        =\n"
         "= License:           MIT                                               =\n"
         "= GitHub Repository: github.com/pi-314159/Authenticator                =\n"
         "========================================================================\n\n" << std::endl;
@@ -138,7 +138,6 @@ int main(int argc, char* argv[]) {
         STARTLOOP:
         if (action[0] == 'g') {
             std::cout << "OTP: " << ACTIONS::GenerateTotp(tOTPObjects[selectedOTPIndex], crypto) << '\n' << std::endl;
-            std::this_thread::sleep_for(std::chrono::seconds(2));
         }
         else if (action[0] == 'c') {
             auto accountsFilePassword = std::make_unique_for_overwrite<std::string>();
@@ -157,7 +156,6 @@ int main(int argc, char* argv[]) {
                 fileIo->WriteBinary(*toWrite, crypto, key);
                 toWrite.reset();
                 std::cout << "Changed.\n" << std::endl;
-                std::this_thread::sleep_for(std::chrono::seconds(1));
             }
             else {
                 std::cout << "Passwords do NOT match. ";
@@ -177,7 +175,6 @@ int main(int argc, char* argv[]) {
             else {
                 std::cout << "Empty list.\n" << std::endl;
             }
-            std::this_thread::sleep_for(std::chrono::seconds(1));
         }
         else if (action[0] == 'd') {
             if (tOTPObjectsSize > 1) {
@@ -194,7 +191,6 @@ int main(int argc, char* argv[]) {
             }
             --tOTPObjectsSize;
             std::cout << "Deleted.\n" << std::endl;
-            std::this_thread::sleep_for(std::chrono::seconds(1));
             goto STARTLOOP;
         } else if (action[0] == 'a') {
             ACTIONS::Add(tOTPObjects);
@@ -204,7 +200,6 @@ int main(int argc, char* argv[]) {
             fileIo->WriteBinary(*toWrite, crypto, key);
             toWrite.reset();
             std::cout << "Added.\n" << std::endl;
-            std::this_thread::sleep_for(std::chrono::seconds(1));
             goto STARTLOOP;
         }
         
