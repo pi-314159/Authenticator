@@ -2,7 +2,7 @@ This is a TOTP (Time-Based One-Time Password) authenticator that adheres to [RFC
 
 ## Build
 
-Before building, ensure that you have OpenSSL library installed and that your compiler supports C++20. By default, the executable is located in the `build` folder.
+Before building, ensure that you have OpenSSL library installed and that your compiler supports C++23. By default, the executable is located in the `build` folder.
 
 ### Windows
 
