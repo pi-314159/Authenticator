@@ -5,9 +5,10 @@
 #define ACTIONS__ADD_H_
 
 #include <totp.h>
+#include <tools/crypto.h>
 
 namespace ACTIONS {
-    void Add(std::vector<tOTP_object>& tOTPObjects);
+    std::string Add(std::vector<tOTP_object>& tOTPObjects, TOOLS::Crypto& crypto);
 }
 
 #endif

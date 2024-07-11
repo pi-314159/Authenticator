@@ -3,31 +3,19 @@
 
 #include <tools/crypto.h>
 
-#include <openssl/evp.h>
 #include <openssl/hmac.h>
 
 #include <ranges>
 
 namespace TOOLS {
     void Crypto::CalculateHmac(std::string hashAlg, unsigned char* key, int& keySize, unsigned long long int msg, unsigned char* result, unsigned int* resultSize) {
-        auto hashAlgorithm = EVP_sha1();
-        if (hashAlg == "sha256") {
-            hashAlgorithm = EVP_sha256();
-        }
-        else if (hashAlg == "sha384") {
-            hashAlgorithm = EVP_sha384();
-        }
-        else if (hashAlg == "sha512") {
-            hashAlgorithm = EVP_sha512();
-        }
-
         unsigned char message[8] = {'0'};
         // This automatically solves the endianness problem
         for (const short int i : std::views::iota(0, 8)) {
             message[i] = (char)(unsigned char)(msg >> (56 - 8 * i));
         }
 
-        HMAC(hashAlgorithm, key, keySize, message, 8, result, resultSize);
+        HMAC(hashAlgorithms.at(hashAlg), key, keySize, message, 8, result, resultSize);
         return;
     }
 

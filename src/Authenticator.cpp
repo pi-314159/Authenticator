@@ -15,7 +15,7 @@
 
 int main(int argc, char* argv[]) {
     std::cout << "=========================== PI Authenticator ===========================\n"
-        "= Last Updated:      2024-07-08                                        =\n"
+        "= Last Updated:      2024-07-11                                        =\n"
         "= License:           MIT                                               =\n"
         "= GitHub Repository: github.com/pi-314159/Authenticator                =\n"
         "========================================================================\n\n" << std::endl;
@@ -193,14 +193,19 @@ int main(int argc, char* argv[]) {
             std::cout << "Deleted.\n" << std::endl;
             goto STARTLOOP;
         } else if (action[0] == 'a') {
-            ACTIONS::Add(tOTPObjects);
-            action[0] = 'l';
-            ++tOTPObjectsSize;
-            auto toWrite = std::make_unique<std::string>("OK" + TOOLS::VectorToString(tOTPObjects));
-            fileIo->WriteBinary(*toWrite, crypto, key);
-            toWrite.reset();
-            std::cout << "Added.\n" << std::endl;
-            goto STARTLOOP;
+            action = ACTIONS::Add(tOTPObjects, crypto);
+            if (action[0] == 'O') {
+                action[0] = 'l';
+                ++tOTPObjectsSize;
+                auto toWrite = std::make_unique<std::string>("OK" + TOOLS::VectorToString(tOTPObjects));
+                fileIo->WriteBinary(*toWrite, crypto, key);
+                toWrite.reset();
+                std::cout << "Added.\n" << std::endl;
+                goto STARTLOOP;
+            }
+            else {
+                std::cout << action << '\n' << std::endl;
+            }
         }
         
         str->Input(action, "Select from the following options:\nGenerate an OTP    [number]\nAdd                [a]\nDelete             [d[number]]\nList               [l]\nChange password    [c]\nQuit               [q]:\nEnter your choice:");

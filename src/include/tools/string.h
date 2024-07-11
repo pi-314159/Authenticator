@@ -10,6 +10,7 @@ namespace TOOLS {
     class String {
     public:
         bool Input(std::string& input, std::string prompt = "", bool getLine = false);
+        void StringReplace(std::string& str, std::string_view pattern, std::string_view replacement);
 
         template<typename T>
         bool FormatInput(std::string& input, T& output, char type = '0') {
