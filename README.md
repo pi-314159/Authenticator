@@ -44,7 +44,7 @@ After starting the program, you can use the following commands:
 
 1. `l`: List all accounts. Each account is numbered.
 2. `[number]`: Generate a new OTP for the specified account number.
-3. `a`: Add a new account. Use a QR code scanner (e.g., [Barcodes Decoder](https://tool.vas.live-on.net/HTML/Barcodes_Decoder.html "Barcodes Decoder")) to decode the QR code, then enter the account details as prompted.
+3. `a`: Add a new account. Use a QR code scanner (e.g., [Barcodes Decoder](https://tools.dnshome.de/HTML/Barcodes_Decoder.html "Barcodes Decoder")) to decode the QR code, then enter the account details as prompted.
 4. `d[number]`: Delete an existing account by its account number.
 5. `c`: Change the password of the encrypted file.
 6. `q`: Quit the program.
