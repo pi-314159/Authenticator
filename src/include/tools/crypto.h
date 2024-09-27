@@ -12,7 +12,7 @@
 namespace TOOLS {
     class Crypto {
     public:
-        const std::map<std::string, const EVP_MD*> hashAlgorithms {
+        const std::map<std::string, const EVP_MD*> CONST_hashAlgorithms {
             {"sha1", EVP_sha1()},
             {"sha224", EVP_sha224()},
             {"sha256", EVP_sha256()},

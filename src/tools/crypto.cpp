@@ -15,7 +15,7 @@ namespace TOOLS {
             message[i] = (char)(unsigned char)(msg >> (56 - 8 * i));
         }
 
-        HMAC(hashAlgorithms.at(hashAlg), key, keySize, message, 8, result, resultSize);
+        HMAC(CONST_hashAlgorithms.at(hashAlg), key, keySize, message, 8, result, resultSize);
         return;
     }
 

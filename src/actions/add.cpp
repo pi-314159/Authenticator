@@ -73,7 +73,7 @@ namespace ACTIONS {
 
         std::string alg = "sha1";
         if (totp.contains("algorithm")) {
-            if (crypto.hashAlgorithms.contains(totp["algorithm"])) {
+            if (crypto.CONST_hashAlgorithms.contains(totp["algorithm"])) {
                 alg = totp["algorithm"];
             }
             else {
